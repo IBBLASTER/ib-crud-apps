@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD APP</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html, body{
+            width: 100%;
+            height: 100%;
+            background-color: #333;
+            display: flex;
+            justify-content: center;
+        }
+        .main{
+            width: 40%;
+            min-height: 50vh;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 3rem;
+        }
+        .row input{
+            width: 300px;
+            padding: 8px;
+            border-radius: 3px;
+            border: none;
+            box-shadow: 1px 2px 2px black;
+        }
+        .btn{
+            width: 60px;
+            padding: 8px;
+            border-radius: 3px;
+            border: none;
+            box-shadow: 1px 2px 2px black;
+            cursor: pointer;
+            font-family:monospace;
+            font-weight: bold;
+
+        }
+       
+        .btn-1:hover{
+            background-color: greenyellow;
+        }
+        .btn-2:hover{
+            background-color: rgb(255, 88, 88);
+        }
+        .btn-3:hover{
+            background-color: rgb(255, 244, 90);
+        }
+        ul li{
+            list-style-type: none;
+            margin: 7px 0px;
+            border: 1px solid rgb(255, 255, 255);
+            background-color: rgba(49, 49, 49, 0.247);
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 0px 10px;
+            border-radius: 5px;
+            color: #fff;
+            justify-content: space-between;
+        }
+        .row-2{
+            width: 23rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <div class="row">
+            <input type="text" name="text" id="text"/>
+            <button class="btn-1 btn">ADD</button>
+        </div>
+        <div class="row row-2">
+            <ul class="parent">
+                <!-- <li>
+                    <h3>Add Items</h3>
+                    <div class="btnBox">
+                         <button class="btn-3 btn">EDIT</button>
+                         <button class="btn-2 btn">REMOVE</button>
+                    </div>
+                </li> -->
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        let btnAdd = document.querySelector('.btn-1');
+        let textInput = document.querySelector('#text');
+        let parent = document.querySelector('.parent');
+
+        btnAdd.addEventListener('click', (dets)=>{
+            let typedText = textInput.value;
+            let newList = document.createElement('li');
+            newList.innerHTML = `<h3>${typedText}</h3>
+                    <div class="btnBox">
+                         <button class="btn-3 btn">EDIT</button>
+                         <button class="btn-2 btn">REMOVE</button>
+                    </div>`;
+            
+            // If we want to grab the dynamic made in js elements and tweak them in js then as we grab elements from html by document.queryselector etc like that we can save dynamic elements in a variable and then we can use queryselector on that variable from where we want to grab the element then we can actually apply anything we want like events etc from js.        
+                     
+            if (typedText !== "") {
+                parent.appendChild(newList);
+            }
+            textInput.value = '';
+
+            // Like we did here we grabed a btn from dynamic element by using the name of variable and using queryselector.
+            let remBtn = newList.querySelector('.btn-2');
+            remBtn.addEventListener('click', (dets)=>{
+                parent.removeChild(newList);
+            })
+
+            let editBtn = newList.querySelector('.btn-3');
+            editBtn.addEventListener('click', (dets)=>{
+                let listhead = newList.querySelector('h3');
+                let changeText = prompt('Edit Your Text:', listhead.textContent);
+                if (changeText !== null) {
+                    listhead.textContent = changeText;
+                } 
+            })
+        })
+    </script>
+</body>
+</html>
