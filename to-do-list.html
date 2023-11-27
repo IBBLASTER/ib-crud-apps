@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <style>
+        *{
+           margin: 0;
+           padding: 0;
+           box-sizing: border-box;
+        }
+        body{
+            background-color: #020202;
+            color: #fff;
+        }
+        h1{
+            font-family: monospace;
+            display: flex;
+            justify-content: center;
+            padding: 15px 0;
+            font-size: 2.5rem;
+        }
+        .taskMain{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #text{
+            height: 50px;
+            width: 400px;
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+            border: none;
+            padding: 10px 10px;
+            font-size: 1rem;
+        }
+        .addBtn{
+            height: 50px;
+            width: 70px;
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bolder;
+            background-color: rgb(122, 241, 122);
+        }
+        .addBtn:hover{
+            background-color: rgb(45, 241, 45);
+        }
+        .btns{
+            height: 40px;
+            width: 70px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: bolder;
+            border-radius: 5px;
+        }
+        .editBtn{
+            background-color: #71b2f3;
+        }
+        .editBtn:hover{
+            background-color: #3d99f5;
+        }
+        .remBtn{
+            background-color: rgb(241, 122, 122);
+        }
+        .remBtn:hover{
+            background-color: rgb(241, 45, 45);
+        }
+        .taskBox{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin-top: 30px;
+            align-items: center;
+           /* height: 150px; */
+            gap: 10px;
+            width: 470px;
+        }
+        h2{
+           color: rgb(255, 255, 255);
+           font-family: monospace;
+           font-size: 1.3rem;
+           display: flex;
+           align-items: center;
+           
+        }
+        .task1{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            background-color: #00000077;
+            padding: 5px 5px;
+            border-radius: 5px;
+        }
+        .blur{
+            width: 100%;
+            height: 100vh;
+            background: radial-gradient(circle, rgba(255,0,254,1) 5%, rgba(2,0,36,1) 77%, rgba(3,92,76,1) 100%);
+
+            filter: blur(150px);
+        }
+        .main{
+            position: absolute;
+            top: 0px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+ <div class="blur"></div>   
+<div class="main"> 
+    <h1>📝 To Do List</h1>
+
+    <div class="taskMain">
+        <input type="text" id="text" placeholder="Enter Your Task">
+        <button class="addBtn btn">Add</button>
+    </div>
+    <div class="taskBox">
+
+        <!-- <div class="task1">
+           <h2>Read the Book</h2>
+           <div class="forBtn">
+              <button class="editBtn btns">Edit</button>
+              <button class="remBtn btns">Remove</button>
+           </div>
+        </div> -->
+
+    </div>
+</div>
+
+    <script>
+        let addBtn = document.querySelector('.addBtn');
+        let parentBox = document.querySelector('.taskBox');
+        let typingBox = document.querySelector('#text');
+        
+        
+        addBtn.addEventListener('click', (dets)=>{
+            let typedText = typingBox.value;
+            let tDiv = document.createElement('div');
+            tDiv.setAttribute('class', 'task1');
+            tDiv.innerHTML = `<h2>${typedText}</h2>
+                              <div class="forBtn">
+                                 <button class="editBtn btns">Edit</button>
+                                 <button class="remBtn btns">Remove</button>
+                              </div>`;
+            if(typedText !== ''){
+                parentBox.append(tDiv);
+            };
+            typingBox.value = '';
+            
+            let remBtn = tDiv.querySelector('.remBtn');
+            remBtn.addEventListener('click', (dets)=>{
+                tDiv.remove();
+            });
+
+            let editBtn = tDiv.querySelector('.editBtn');
+
+            editBtn.addEventListener('click', (dets)=>{
+                console.log('edit');
+                let h2 = tDiv.querySelector('h2');
+
+                // to edit the text we can use 2 methods:
+                // 1. Using prompt
+                /* let editedText = prompt('Edit your task:', h2.innerText);
+                if(editedText !== ''){
+                    h2.innerText = editedText;
+                } */
+
+
+                // 2. Replacing h2 with input and then editing and updating the text
+                let inputField = document.createElement('input');
+                inputField.type = 'text';
+                inputField.value = h2.innerText;
+
+                tDiv.replaceChild(inputField, h2);
+                inputField.focus(); // ==> Focus will activate the inputField. So, user don't to seperately click on the inputBox they can start typing.
+                
+                // for this part we've got 2 approaches.
+                // 1. when editBtn will be clicked again it will be updated
+                /* editBtn.addEventListener('click', ()=>{
+                    let newInputTxt = inputField.value;
+                    if (newInputTxt !== '') {
+                    h2.innerText = newInputTxt;
+                } */
+
+                //2. We used eventListener on inputField the event is blur what this event will do is that the innercode will be triggering and as the user'd be done with editing and clicks outside the inputField it will update the task.
+                inputField.addEventListener('blur', ()=>{
+                    let newInputTxt = inputField.value;
+                    if (newInputTxt !== '') {
+                    h2.innerText = newInputTxt;
+                }
+                tDiv.replaceChild(h2, inputField);
+                })
+                
+            })
+
+        })
+        
+    </script>
+</body>
+</html>
