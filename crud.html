@@ -128,7 +128,31 @@
                     listhead.textContent = changeText;
                 } 
             })
-        })
+        });
+
+        // append, remove vs appendChild, removeChild;
+
+        // append() is used to add dynamic element in document
+        // It can take multiple arguments.
+        // parentElement.append(childElement1, childElement2, ...);
+        // append also add element by only takes single argument.
+        // parentElement.appendChild(childElement);
+
+        // Simple:
+        // By append you can add multiple elem's at the same time while with appech only one at once.
+
+        // remove() is used to remove dynamic element from document
+        // it can directly be applied to the element which is needed to be removed
+        // elementToRemove.remove();
+        // removeChild also do the same but it can't be directly applied to elem to be removed rather on parent and then have to pass argument meaning specify the child need to be removed.
+        // parentElement.removeChild(childElement);
+
+        // Simple:
+        // remove will be applied directly to elem but removeChild needs to first apply on parent and then specifying the child needs to be removed.
+
+        let dynaBtn = document.createElement('button');
+        dynaBtn.innerText = 'Click Me!';
+        a
     </script>
 </body>
 </html>
