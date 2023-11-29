@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Clock</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html, body{
+            background-color: #222;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        .main{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            width: 100%;
+        }
+        .clockBox{
+            background-color: rgba(255, 255, 255, 0.336);
+            width: 40%;
+            height: 25%;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: monospace;
+            color: #fff;
+            font-size: 2.5rem;
+        }
+        h1{
+            font-size: 3rem;
+            font-weight: bolder;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🕒 Digital Clock</h1>
+    <div class="main">
+        <div class="clockBox">
+            <span class="timeDis"></span>
+        </div>
+    </div>
+</body>
+
+<script>
+    let timeDis = document.querySelector('.timeDis');
+
+    
+    /* setInterval(() => {
+        let dateObj = new Date();
+        let hours = dateObj.getHours();
+        let minutes = dateObj.getMinutes();
+        let seconds = dateObj.getSeconds();
+        if(hours < 10){
+            hours = '0' + hours;
+        }
+        if(minutes < 10){
+            minutes = '0' + minutes;
+        }
+        if(seconds < 10){
+            seconds = '0' + seconds;
+        }
+        timeDis.innerHTML = `${hours} : ${minutes} : ${seconds}`;
+    }, 1000); */
+
+    setInterval(() => {
+    let dateObj = new Date();
+    let options = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
+    let formattedTime = new Intl.DateTimeFormat('en-US', options).format(dateObj);
+    timeDis.innerHTML = formattedTime;
+}, 1000);
+
+</script>
+</html>
