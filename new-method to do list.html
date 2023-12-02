@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Delegation</title>
+    <style>
+        *{
+           margin: 0;
+           padding: 0;
+           box-sizing: border-box;
+        }
+        body{
+            background-color: #020202;
+            color: #fff;
+        }
+        h1{
+            font-family: monospace;
+            display: flex;
+            justify-content: center;
+            padding: 15px 0;
+            font-size: 2.5rem;
+        }
+        .taskMain{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #text{
+            height: 50px;
+            width: 400px;
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+            border: none;
+            padding: 10px 10px;
+            font-size: 1rem;
+        }
+        .addBtn{
+            height: 50px;
+            width: 70px;
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bolder;
+            background-color: rgb(122, 241, 122);
+        }
+        .addBtn:hover{
+            background-color: rgb(45, 241, 45);
+        }
+        .btns{
+            height: 40px;
+            width: 70px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: bolder;
+            border-radius: 5px;
+        }
+        .editBtn{
+            background-color: #71b2f3;
+        }
+        .editBtn:hover{
+            background-color: #3d99f5;
+        }
+        .remBtn{
+            background-color: rgb(241, 122, 122);
+        }
+        .remBtn:hover{
+            background-color: rgb(241, 45, 45);
+        }
+        .taskBox{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin-top: 30px;
+            align-items: center;
+           /* height: 150px; */
+            gap: 10px;
+            width: 470px;
+        }
+        h2{
+           color: rgb(255, 255, 255);
+           font-family: monospace;
+           font-size: 1.3rem;
+           display: flex;
+           align-items: center;
+           
+        }
+        .task1{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            background-color: #00000077;
+            padding: 5px 5px;
+            border-radius: 5px;
+        }
+        .blur{
+            width: 100%;
+            height: 100vh;
+            background: radial-gradient(circle, rgba(255,0,254,1) 5%, rgba(2,0,36,1) 77%, rgba(3,92,76,1) 100%);
+
+            filter: blur(150px);
+        }
+        .main{
+            position: absolute;
+            top: 0px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+ <div class="blur"></div>   
+<div class="main"> 
+    <h1>📝 To Do List</h1>
+
+    <div class="taskMain">
+        <input type="text" id="text" placeholder="Enter Your Task">
+        <button class="addBtn btn">Add</button>
+    </div>
+    <div class="taskBox">
+
+        <!-- <div class="task1">
+           <h2>Read the Book</h2>
+           <div class="forBtn">
+              <button class="editBtn btns">Edit</button>
+              <button class="remBtn btns">Remove</button>
+           </div>
+        </div> -->
+
+    </div>
+</div>
+<script>
+    let parTxtBtn = document.querySelector('.taskMain');
+    let parent = document.querySelector('.taskBox');
+    parTxtBtn.addEventListener('click', (dets)=>{
+       let target = dets.target;
+       let input = parTxtBtn.childNodes[1];
+       let inputText = input.value.trim();
+       // .trim() will remove extra whitespaces accidently provided by user
+       let newList = document.createElement('div');
+       if (inputText !== '') {
+        newList.classList.add('task1');
+        newList.innerHTML = `<h2>${inputText}</h2>
+            <div class="forBtn">
+               <button class="editBtn btns">Edit</button>
+               <button class="remBtn btns">Remove</button>
+            </div>`;
+            if(target.classList.contains('addBtn')){
+                parent.append(newList);
+                input.value = ''   
+            };
+       }
+
+        parent.addEventListener('click', (dets)=>{
+            let target = dets.target
+            if (target.classList.contains('remBtn') && newList) {
+                    target.closest('.task1').remove();
+                }
+                // here target is gives us the element being clicked and then closest(.task1) is checking if the target element have task1 in it hierarchy in this case .task1 is div which contains a remBtn which is target. So, in the hierarchy of remBtn the ancestor is .task1 div. So, it will grab that and after that we've used .remove to remove that.
+        })
+
+    });
+
+    // Event Delegation is method by which can use event listener on a parent / common ancestor and then it'd also be applicable on the children of that parent. So, instead of using individual eventListerners on every child element we can simply use it on just parent and then we can control and use that listener on childs as well.
+
+    // The Reason and mechanism behind all this, the mechanism of how event delagation is that when we have used a event a parent element and then we click on childs of parent then the click on child which is the target element would bubble back to the root which is the common ancestor and because we've applied eventListener on that common ancestor. So, we can leverage that on child as well.
+</script>
+</body>
+</html>
