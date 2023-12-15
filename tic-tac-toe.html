@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic-Tac-Toe</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html, body{
+            width: 100%;
+            height: 100%;
+            background-color: #040D12;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 10px;
+        }
+        h1{
+            color: #c954c7;
+            font-family: monospace;
+            font-size: 3rem;
+        }
+        .main{
+            background-color: #940B92;
+            width: 20%;
+            height: 50vh;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            border-radius: 10px;
+        }
+        .reset{
+            width: 45vmin;
+            height: 7vmin;
+            background-color: #E95793;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.466);
+            font-size: 1.2rem;
+            font-weight: bolder;
+            cursor: pointer;
+        }
+        .new{
+            width: 45vmin;
+            height: 7vmin;
+            background-color: #E95793;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.466);
+            font-size: 1.2rem;
+            font-weight: bolder;
+            cursor: pointer;
+        }
+       .btn{
+            width:10vmin;
+            height: 10vmin;
+            background-color: #E95793;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.466);
+            font-size: 2rem;
+            font-weight: bolder;
+            cursor: pointer;
+            color: #040D12;
+        }
+        .winner{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+        }
+        .hide{
+            display: none;
+        }
+        .win{
+            color: #E95793;
+        }
+    </style>
+</head>
+<body>
+     <h1>Tic-Tac-Toe</h1>
+     <div class="winner hide">
+        <h1 class="win"></h1>
+        <button class="new">New Game</button>
+     </div>
+    <div class="main hide2">
+        <button class="btn"></button>
+        <button class="btn"></button>
+        <button class="btn"></button>
+        <button class="btn"></button>
+        <button class="btn"></button>
+        <button class="btn"></button>
+        <button class="btn"></button>
+        <button class="btn"></button>
+        <button class="btn"></button>
+    </div>
+    <button class="reset">Reset</button>
+    
+    <script>
+        let btns = document.querySelectorAll('.btn');
+        let resetBtn = document.querySelector('.reset');
+        let newBtn = document.querySelector('.new');
+
+        let arr = [
+            [0,1,2],
+            [0,3,6],
+            [0,4,8],
+            [1,4,7],
+            [2,5,8],
+            [2,4,6],
+            [3,4,5],
+            [6,7,8],
+            [2,4,6],
+        ]
+
+        function gameOver(winner){
+            document.querySelector('.win').innerText = `Congratulations, Winner is ${winner}`
+            document.querySelector('.winner').classList.remove('hide');
+            document.querySelector('.reset').style.display = 'none';
+        }
+
+        function newGame(){
+            btns.forEach((val)=>{
+                val.innerText = ''
+            })
+            document.querySelector('.reset').style.display = 'block';
+            count = 0;
+        }
+
+        newBtn.addEventListener('click', ()=>{
+            newGame();
+            enabled();
+            document.querySelector('.winner').classList.add('hide')
+        })
+
+        resetBtn.addEventListener('click', ()=>{
+            newGame();
+            enabled();
+        })
+        
+        function disabled() {
+            for(let loopBtn of btns){
+                loopBtn.disabled = true
+            }
+        }
+
+        function enabled() {
+            for(let loopBtn of btns){
+                loopBtn.disabled = false
+            }
+        }
+        
+        function checkWinner() {
+            for(let array of arr){ 
+                let pos1 = btns[array[0]].innerText
+                let pos2 = btns[array[1]].innerText
+                let pos3 = btns[array[2]].innerText
+                
+                if(pos1 != '' && pos2 != '' && pos3 != ''){
+                    if(pos1 === pos2 && pos2 === pos3){
+                        console.log(`${pos1} is Winner`);
+                        disabled()
+                        gameOver(pos1);
+                        return;
+                    }
+                    
+                }
+            }
+            if(count == 9){
+                gameOver();
+                document.querySelector('.win').innerText = "It's a Draw";
+            }
+        }
+        
+        let redCheck = true;
+        
+        let count = 0;
+        btns.forEach((val)=>{
+            val.addEventListener('click', (dets)=>{
+                if(redCheck){
+                    val.innerText = 'X';
+                    val.style.color = '#D21312';
+                    redCheck = false;
+                }
+                else{
+                    val.innerText = 'O';
+                    val.style.color = '#070A52';
+                    redCheck = true;
+                }
+                val.disabled = true;
+
+                count += 1;
+                checkWinner();
+            })
+        });
+    </script>
+</body>
+</html>
