@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors Game</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html, body{
+            width: 100%;
+            height: 100%;
+            background-color: #222;
+        }
+        h1{
+            color: #ffff;
+            font-family: 'Barlow';
+            text-align: center;
+            line-height: 80px;
+            font-size: 2.5rem;
+            background-color: rgb(201, 92, 19);
+        }
+        .choices{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 50px;
+            margin-top: 10vh;
+        }
+        .c-box{
+            width: 90px;
+            height: 90px;
+            background-color: #ffda8a;
+            font-size: 2.5rem;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.2s ease-out;
+        }
+        .c-box:hover{
+            border: 3px solid rgb(255, 174, 0);
+            cursor: pointer;
+            transform: scale(1.1);
+        }
+        .score{
+            color: #ffff;
+            font-family: 'Barlow';
+            font-size: 1.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10vw;
+            margin-top: 10vh;
+        }
+        .score-b{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+        .main-msg{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .msg{
+            margin-top: 10vh;
+            width: 35vw;
+            height: 10rem;
+            border: none;
+            border-radius: 5px;
+            background-color: #c95c13;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .msg p{
+            color: #ffff;
+            font-family: 'Barlow';
+            font-size: 1.5rem;
+            font-weight: bolder;
+        }
+    </style>
+</head>
+<body>
+    <h1>Rock Paper Scissors Game</h1>
+    <div class="choices">
+        <div class="rock c-box">
+            <p>✊</p>
+        </div>
+        <div class="paper c-box">
+            <p>✋</p>
+        </div>
+        <div class="scissors c-box">
+            <p>✌</p>
+        </div>
+    </div>
+    <div class="score">
+        <div class="user score-b">
+            <p>You</p>
+            <p class="u-score">0</p>
+        </div>
+        <div class="com score-b">
+            <p>Computer</p>
+            <p class="com-score">0</p>
+        </div>
+    </div>
+    <div class="main-msg">
+        <div class="msg">
+            <p class="msg-show"></p>
+            <p class="sel-show"></p>
+        </div>
+    </div>
+
+
+    <script>
+        let choices = document.querySelectorAll('.c-box');
+        let msgBox = document.querySelector('.msg-show');
+        let selBox = document.querySelector('.sel-show');
+
+        let userCount = 0;
+        let compCount = 0;
+
+        function userScore(){
+            userCount += 1;
+            document.querySelector('.u-score').innerText = userCount
+        }
+        function compScore(){
+            compCount += 1;
+            document.querySelector('.com-score').innerText = compCount
+        }
+
+        let compChoices = ['✊', '✋', '✌']
+        let randomChoices;
+        function compChoice() {
+            randomChoices = compChoices[Math.floor(Math.random() * compChoices.length)];
+            console.log(`Comp Choice = ${randomChoices}`)
+        }
+
+        
+
+        choices.forEach((cBoxes)=> {
+            cBoxes.addEventListener('click', (dets)=>{
+                let selection = dets.target.innerText;
+                console.log(`User Choice = ${selection}`)
+                compChoice()
+                msgBox.innerText = `Your = ${selection} & Comp = ${randomChoices}`;
+
+                if(selection === randomChoices){
+                    msgBox.innerText = `Your = ${selection} & Comp = ${randomChoices}`;
+                    selBox.innerText = "It's a Draw!"
+                    selBox.style.color = '#1dfffe'
+                }
+                if(selection === '✊'){
+                    if(randomChoices === '✌'){
+                      userScore();
+                      selBox.innerText = "You Won!"
+                      selBox.style.color = '#0dff0d'
+                    }
+                    if(randomChoices === '✋'){
+                      compScore();
+                      selBox.innerText = "You Lost!"
+                      selBox.style.color = '#f9ff00'
+                    }
+                }
+                if(selection === '✋'){
+                    if(randomChoices === '✊'){
+                      userScore();
+                      selBox.innerText = "You Won!"
+                      selBox.style.color = '#0dff0d'
+                    }
+                    if(randomChoices === '✌'){
+                      compScore();
+                      selBox.innerText = "You Lost!"
+                      selBox.style.color = '#f9ff00'
+                    }
+                }
+                if(selection === '✌'){
+                    if(randomChoices === '✊'){
+                      compScore();
+                      selBox.innerText = "You Lost!"
+                      selBox.style.color = '#f9ff00'
+                    }
+                    if(randomChoices === '✋'){
+                      userScore();
+                      selBox.innerText = "You Won!"
+                      selBox.style.color = '#0dff0d'
+                    }
+                }
+                
+            })
+        })
+
+    </script>
+</body>
+</html>
